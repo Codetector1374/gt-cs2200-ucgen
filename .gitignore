@@ -1,0 +1,9 @@
+.idea
+*.iws
+*.ipr
+*.iml
+
+*.uc
+*.mc
+venv/*
+!venv/pyvenv.cfg
