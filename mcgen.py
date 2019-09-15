@@ -1,12 +1,9 @@
-# fetch0: [drPC, ] jmp
-#
-#
-#
 
 import argparse
 import re
+from typing import List
 
-signals = {
+AvailableSignals = {
     'NextState': 6,
     'DrReg': 1,
     'DrMEM': 1,
@@ -30,19 +27,38 @@ signals = {
 MainRomSignalValues = {}
 
 MainRomSymbolTable = {}
+ValueTable = []
+
+
+class MicrocodeSignal:
+    def __init__(self, parseValue):
+        pass
+
+
+
+class MicrocodeEntry:
+    def __init__(self, symbol: str, signals: List[MicrocodeSignal], target: str = None):
+        self.symbol = symbol
+        self.signals = signals
+        self.target = target
+        pass
+
 
 def computeSignalValueTable():
-    currentShift = 0
-    for signal in signals:
-        MainRomSignalValues[signal] = currentShift
-        currentShift += signals[signal]
+    current_shift = 0
+    for signal in AvailableSignals:
+        MainRomSignalValues[signal] = current_shift
+        current_shift += AvailableSignals[signal]
     print(MainRomSignalValues)
     pass
 
-def parseLine(line, location):
-    line = line.replace('\r\n', '').replace('\n','')
 
-    matcher = re.compile(r'^(?P<symbol>[^:\[\] ]+)[ ]*:[ ]*'   # Line Starter Symbol
+def parseLine(line, location):
+    line = line.replace('\r\n', '').replace('\n', '')
+    if len(line) == 0:
+        return None
+
+    matcher = re.compile(r'^(?P<symbol>[^:\[\] ]+)[ ]*:[ ]*'  # Line Starter Symbol
                          r'(\[(?P<signals>[A-Za-z0-9=, ]*)\])[ ]*'  # Signal Assertion
                          r'(?P<targetSymbol>[^:\[\] ]*)$')  # Redirection Symbol
     result = matcher.search(line)
@@ -50,7 +66,10 @@ def parseLine(line, location):
 
     symbol = result.group('symbol').replace(' ', '')
     if len(symbol) == 0:
-        print("ERROR: Line {} no symbol detected".format(location+1))
+        print("ERROR: Line {} no symbol detected".format(location + 1))
+
+    signals = result.group('signals').replace(' ', '').split(',')
+    print(signals)
 
     MainRomSymbolTable[symbol] = location
 
@@ -69,8 +88,8 @@ if __name__ == '__main__':
     print('Counting Configured Main Rom Bits...')
     computeSignalValueTable()
     totalBits = 0
-    for signal in signals:
-        totalBits += signals[signal]
+    for signal in AvailableSignals:
+        totalBits += AvailableSignals[signal]
     print('Main ROM is {} bits'.format(totalBits))
 
     filename = 'demomc.uc'
