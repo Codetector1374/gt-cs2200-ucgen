@@ -6,4 +6,3 @@
 *.uc
 *.mc
 venv/*
-!venv/pyvenv.cfg
