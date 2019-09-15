@@ -8,7 +8,7 @@ ucSequencerStmt: '@' IDENTIFIER ':' number IDENTIFIER;
 ucCmpStmt: '!' IDENTIFIER ':' number IDENTIFIER;
 
 signalList: '[' signals ']';
-signals: signal (',' signal)*;
+signals: signal? (',' signal)*;
 signal: IDENTIFIER ('=' number)?;
 
 number: dec_num|hex_num|bin_num;
