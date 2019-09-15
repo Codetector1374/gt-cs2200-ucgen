@@ -112,6 +112,9 @@ class uclangListener(ParseTreeListener):
         else:
             stmt = MicrocodeEntry(ids[0], signal_list, ids[1])
         ctx.stmt = stmt
+        if ids[0] in MainRomSymbolTable:
+            print("ERROR: Symbol %s is defined more than once" % ids[0])
+            exit(-1)
         MainRomSymbolTable[ids[0]] = self.location
         self.location += 1
         MainRomEntries.append(stmt)
