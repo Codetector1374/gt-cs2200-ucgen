@@ -35,6 +35,9 @@ MainRomContent = []
 SequencerRomContent = []
 SequencerRomEntries = []
 heapq.heapify(SequencerRomEntries)
+CondRomContent =[]
+CondRomEntries = []
+heapq.heapify(CondRomEntries)
 
 class SequencerEntry:
     def __init__(self, name: str, value: int, target: str):
@@ -48,6 +51,20 @@ class SequencerEntry:
 
     def __str__(self):
         return "SEQ: (%s)[%01X]: %s" % (self.name, self.value, self.target)
+
+
+class CondEntry:
+    def __init__(self, name: str, value: int, target: str):
+        self.name = name
+        self.value = value
+        self.target = target
+        pass
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __str__(self):
+        return "COND: (%s)[%01X]: %s" % (self.name, self.value, self.target)
 
 class MicrocodeSignal:
     def __init__(self, name, value):
@@ -71,7 +88,7 @@ class MicrocodeEntry:
         return self.__str__()
 
     def __str__(self) -> str:
-        return '\n%s: %s ==> %s' % (self.symbol, self.signals, self.target)
+        return '%s: %s ==> %s' % (self.symbol, self.signals, self.target)
 
 
 def computeSignalValueTable():
@@ -101,6 +118,10 @@ class uclangListener(ParseTreeListener):
 
     # Exit a parse tree produced by uclangParser#ucCmpStmt.
     def exitUcCmpStmt(self, ctx:uclangParser.UcCmpStmtContext):
+        ids = list(map(toText, ctx.IDENTIFIER()))
+        num = ctx.number().numVal
+        condEnt = CondEntry(ids[0], num, ids[1])
+        heapq.heappush(CondRomEntries, (num, condEnt))
         pass
 
     # Exit a parse tree produced by uclangParser#ucSignalStmt.
@@ -193,7 +214,7 @@ def process_main_rom_entry(entry: MicrocodeEntry):
     MainRomContent.append("%07x" % entryValue)
 
 
-def resolve_sequencer_entry(entry: SequencerEntry) -> str:
+def resolve_sequencer_cond_entry(entry) -> str:
     if entry.target.lower() not in MainRomSymbolTable:
         print('Symbol (%s) referenced in Sequencer (%s) is not found in main rom'
               % (entry.target, entry.name))
@@ -235,25 +256,42 @@ if __name__ == '__main__':
     walker.walk(listener, tree)
 
     print('MAIN SYMBOL TABLE: ', MainRomSymbolTable)
-    print('MAIN Entries: ', MainRomEntries)
+    print('MAIN Entries: ')
     for entry in MainRomEntries:
         process_main_rom_entry(entry)
+        print(entry)
 
+    print('SEQ Entries: ')
     while len(SequencerRomEntries) > 0:
         entry = heapq.heappop(SequencerRomEntries)
-        resolvedValue = resolve_sequencer_entry(entry[1])
+        resolvedValue = resolve_sequencer_cond_entry(entry[1])
         while len(SequencerRomContent) < entry[0]:
-            SequencerRomContent.append('%07X' % 0)
+            SequencerRomContent.append('%07x' % 0)
         if len(SequencerRomContent) != entry[0]:
             print("Something very bad happened")
             exit(-1)
         else:
             SequencerRomContent.append(resolvedValue)
-        print(entry)
+        print(entry[1])
         pass
+
+    print('COND Entries: ')
+    while len(CondRomEntries) > 0:
+        entry = heapq.heappop(CondRomEntries)
+        resolvedValue = resolve_sequencer_cond_entry(entry[1])
+        while len(CondRomContent) < entry[0]:
+            CondRomContent.append('%07x' % 0)
+        if len(CondRomContent) != entry[0]:
+            print("Something very bad happened")
+            exit(-1)
+        else:
+            CondRomContent.append(resolvedValue)
+        print(entry[1])
+
     print('===========OUTPUT===============')
     print("MAIN: ", MainRomContent)
     print("SEQ:  ", SequencerRomContent)
+    print("COND: ", CondRomContent)
     output = args.o
     with open(('%s_main.dat' % output), 'w') as mainFile:
         mainFile.write(' '.join(MainRomContent))
@@ -261,3 +299,6 @@ if __name__ == '__main__':
     with open(('%s_seq.dat' % output), 'w') as seqFile:
         seqFile.write(' '.join(SequencerRomContent))
         seqFile.flush()
+    with open(('%s_cond.dat' % output), 'w') as condFile:
+        condFile.write(' '.join(CondRomContent))
+        condFile.flush()
