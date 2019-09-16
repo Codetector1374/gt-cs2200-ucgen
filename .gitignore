@@ -5,7 +5,7 @@
 
 *.uc
 *.mc
-venv/*
+venv/
 uclang/*
 !uclang/.gitkeep
 
