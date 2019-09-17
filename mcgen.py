@@ -215,11 +215,11 @@ def process_main_rom_entry(entry: MicrocodeEntry):
 
 
 def resolve_sequencer_cond_entry(entry) -> str:
-    if entry.target.lower() not in MainRomSymbolTable:
+    if entry.target not in MainRomSymbolTable:
         print('Symbol (%s) referenced in Sequencer (%s) is not found in main rom'
               % (entry.target, entry.name))
         exit(-1)
-    return '%07x' % MainRomSymbolTable[entry.target.lower()]
+    return '%07x' % MainRomSymbolTable[entry.target]
     pass
 
 if __name__ == '__main__':
