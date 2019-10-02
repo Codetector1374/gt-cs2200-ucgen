@@ -8,33 +8,36 @@ import sys
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20")
-        buf.write("Y\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
-        buf.write("\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\3\2\3\2")
-        buf.write("\3\2\7\2\36\n\2\f\2\16\2!\13\2\3\3\3\3\3\3\3\3\5\3\'\n")
-        buf.write("\3\3\4\3\4\3\4\3\4\5\4-\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3")
-        buf.write("\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\5\b@\n\b\3")
-        buf.write("\b\3\b\7\bD\n\b\f\b\16\bG\13\b\3\t\3\t\3\t\5\tL\n\t\3")
-        buf.write("\n\3\n\3\n\5\nQ\n\n\3\13\3\13\3\f\3\f\3\r\3\r\3\r\2\2")
-        buf.write("\16\2\4\6\b\n\f\16\20\22\24\26\30\2\2\2V\2\32\3\2\2\2")
-        buf.write("\4&\3\2\2\2\6(\3\2\2\2\b.\3\2\2\2\n\64\3\2\2\2\f:\3\2")
-        buf.write("\2\2\16?\3\2\2\2\20H\3\2\2\2\22P\3\2\2\2\24R\3\2\2\2\26")
-        buf.write("T\3\2\2\2\30V\3\2\2\2\32\37\5\4\3\2\33\34\7\20\2\2\34")
-        buf.write("\36\5\4\3\2\35\33\3\2\2\2\36!\3\2\2\2\37\35\3\2\2\2\37")
-        buf.write(" \3\2\2\2 \3\3\2\2\2!\37\3\2\2\2\"\'\5\6\4\2#\'\5\b\5")
-        buf.write("\2$\'\5\n\6\2%\'\3\2\2\2&\"\3\2\2\2&#\3\2\2\2&$\3\2\2")
-        buf.write("\2&%\3\2\2\2\'\5\3\2\2\2()\7\13\2\2)*\7\3\2\2*,\5\f\7")
-        buf.write("\2+-\7\13\2\2,+\3\2\2\2,-\3\2\2\2-\7\3\2\2\2./\7\4\2\2")
-        buf.write("/\60\7\13\2\2\60\61\7\3\2\2\61\62\5\22\n\2\62\63\7\13")
-        buf.write("\2\2\63\t\3\2\2\2\64\65\7\5\2\2\65\66\7\13\2\2\66\67\7")
-        buf.write("\3\2\2\678\5\22\n\289\7\13\2\29\13\3\2\2\2:;\7\6\2\2;")
-        buf.write("<\5\16\b\2<=\7\7\2\2=\r\3\2\2\2>@\5\20\t\2?>\3\2\2\2?")
-        buf.write("@\3\2\2\2@E\3\2\2\2AB\7\b\2\2BD\5\20\t\2CA\3\2\2\2DG\3")
-        buf.write("\2\2\2EC\3\2\2\2EF\3\2\2\2F\17\3\2\2\2GE\3\2\2\2HK\7\13")
-        buf.write("\2\2IJ\7\t\2\2JL\5\22\n\2KI\3\2\2\2KL\3\2\2\2L\21\3\2")
-        buf.write("\2\2MQ\5\24\13\2NQ\5\26\f\2OQ\5\30\r\2PM\3\2\2\2PN\3\2")
-        buf.write("\2\2PO\3\2\2\2Q\23\3\2\2\2RS\7\f\2\2S\25\3\2\2\2TU\7\r")
-        buf.write("\2\2U\27\3\2\2\2VW\7\16\2\2W\31\3\2\2\2\t\37&,?EKP")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21")
+        buf.write("b\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
+        buf.write("\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t")
+        buf.write("\16\3\2\3\2\3\2\7\2 \n\2\f\2\16\2#\13\2\3\3\3\3\3\3\3")
+        buf.write("\3\3\3\5\3*\n\3\3\4\3\4\3\4\3\4\5\4\60\n\4\3\5\3\5\3\5")
+        buf.write("\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3")
+        buf.write("\7\3\7\3\b\3\b\3\b\3\b\3\t\5\tI\n\t\3\t\3\t\7\tM\n\t\f")
+        buf.write("\t\16\tP\13\t\3\n\3\n\3\n\5\nU\n\n\3\13\3\13\3\13\5\13")
+        buf.write("Z\n\13\3\f\3\f\3\r\3\r\3\16\3\16\3\16\2\2\17\2\4\6\b\n")
+        buf.write("\f\16\20\22\24\26\30\32\2\2\2_\2\34\3\2\2\2\4)\3\2\2\2")
+        buf.write("\6+\3\2\2\2\b\61\3\2\2\2\n\67\3\2\2\2\f=\3\2\2\2\16C\3")
+        buf.write("\2\2\2\20H\3\2\2\2\22Q\3\2\2\2\24Y\3\2\2\2\26[\3\2\2\2")
+        buf.write("\30]\3\2\2\2\32_\3\2\2\2\34!\5\4\3\2\35\36\7\21\2\2\36")
+        buf.write(" \5\4\3\2\37\35\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2")
+        buf.write("\2\"\3\3\2\2\2#!\3\2\2\2$*\5\6\4\2%*\5\b\5\2&*\5\n\6\2")
+        buf.write("\'*\5\f\7\2(*\3\2\2\2)$\3\2\2\2)%\3\2\2\2)&\3\2\2\2)\'")
+        buf.write("\3\2\2\2)(\3\2\2\2*\5\3\2\2\2+,\7\f\2\2,-\7\3\2\2-/\5")
+        buf.write("\16\b\2.\60\7\f\2\2/.\3\2\2\2/\60\3\2\2\2\60\7\3\2\2\2")
+        buf.write("\61\62\7\4\2\2\62\63\7\f\2\2\63\64\7\3\2\2\64\65\5\24")
+        buf.write("\13\2\65\66\7\f\2\2\66\t\3\2\2\2\678\7\5\2\289\7\f\2\2")
+        buf.write("9:\7\3\2\2:;\5\24\13\2;<\7\f\2\2<\13\3\2\2\2=>\7\6\2\2")
+        buf.write(">?\7\f\2\2?@\7\3\2\2@A\5\24\13\2AB\7\f\2\2B\r\3\2\2\2")
+        buf.write("CD\7\7\2\2DE\5\20\t\2EF\7\b\2\2F\17\3\2\2\2GI\5\22\n\2")
+        buf.write("HG\3\2\2\2HI\3\2\2\2IN\3\2\2\2JK\7\t\2\2KM\5\22\n\2LJ")
+        buf.write("\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2O\21\3\2\2\2PN\3")
+        buf.write("\2\2\2QT\7\f\2\2RS\7\n\2\2SU\5\24\13\2TR\3\2\2\2TU\3\2")
+        buf.write("\2\2U\23\3\2\2\2VZ\5\26\f\2WZ\5\30\r\2XZ\5\32\16\2YV\3")
+        buf.write("\2\2\2YW\3\2\2\2YX\3\2\2\2Z\25\3\2\2\2[\\\7\r\2\2\\\27")
+        buf.write("\3\2\2\2]^\7\16\2\2^\31\3\2\2\2_`\7\17\2\2`\33\3\2\2\2")
+        buf.write("\t!)/HNTY")
         return buf.getvalue()
 
 
@@ -48,30 +51,31 @@ class uclangParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "':'", "'@'", "'!'", "'['", "']'", "','", 
-                     "'='" ]
+    literalNames = [ "<INVALID>", "':'", "'@'", "'!'", "'$'", "'['", "']'", 
+                     "','", "'='" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "COMMENT", "IDENTIFIER", "T_DEC", "T_HEX", "T_BIN", 
-                      "WHITESPACE", "NEWLINE" ]
+                      "<INVALID>", "COMMENT", "IDENTIFIER", "T_DEC", "T_HEX", 
+                      "T_BIN", "WHITESPACE", "NEWLINE" ]
 
     RULE_ucprog = 0
     RULE_ucStmt = 1
     RULE_ucSignalStmt = 2
     RULE_ucSequencerStmt = 3
     RULE_ucCmpStmt = 4
-    RULE_signalList = 5
-    RULE_signals = 6
-    RULE_signal = 7
-    RULE_number = 8
-    RULE_dec_num = 9
-    RULE_hex_num = 10
-    RULE_bin_num = 11
+    RULE_ucIntStmt = 5
+    RULE_signalList = 6
+    RULE_signals = 7
+    RULE_signal = 8
+    RULE_number = 9
+    RULE_dec_num = 10
+    RULE_hex_num = 11
+    RULE_bin_num = 12
 
     ruleNames =  [ "ucprog", "ucStmt", "ucSignalStmt", "ucSequencerStmt", 
-                   "ucCmpStmt", "signalList", "signals", "signal", "number", 
-                   "dec_num", "hex_num", "bin_num" ]
+                   "ucCmpStmt", "ucIntStmt", "signalList", "signals", "signal", 
+                   "number", "dec_num", "hex_num", "bin_num" ]
 
     EOF = Token.EOF
     T__0=1
@@ -81,13 +85,14 @@ class uclangParser ( Parser ):
     T__4=5
     T__5=6
     T__6=7
-    COMMENT=8
-    IDENTIFIER=9
-    T_DEC=10
-    T_HEX=11
-    T_BIN=12
-    WHITESPACE=13
-    NEWLINE=14
+    T__7=8
+    COMMENT=9
+    IDENTIFIER=10
+    T_DEC=11
+    T_HEX=12
+    T_BIN=13
+    WHITESPACE=14
+    NEWLINE=15
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -138,17 +143,17 @@ class uclangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 24
+            self.state = 26
             self.ucStmt()
-            self.state = 29
+            self.state = 31
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==uclangParser.NEWLINE:
-                self.state = 25
+                self.state = 27
                 self.match(uclangParser.NEWLINE)
-                self.state = 26
+                self.state = 28
                 self.ucStmt()
-                self.state = 31
+                self.state = 33
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -179,6 +184,10 @@ class uclangParser ( Parser ):
             return self.getTypedRuleContext(uclangParser.UcCmpStmtContext,0)
 
 
+        def ucIntStmt(self):
+            return self.getTypedRuleContext(uclangParser.UcIntStmtContext,0)
+
+
         def getRuleIndex(self):
             return uclangParser.RULE_ucStmt
 
@@ -199,20 +208,24 @@ class uclangParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_ucStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 36
+            self.state = 39
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [uclangParser.IDENTIFIER]:
-                self.state = 32
+                self.state = 34
                 self.ucSignalStmt()
                 pass
             elif token in [uclangParser.T__1]:
-                self.state = 33
+                self.state = 35
                 self.ucSequencerStmt()
                 pass
             elif token in [uclangParser.T__2]:
-                self.state = 34
+                self.state = 36
                 self.ucCmpStmt()
+                pass
+            elif token in [uclangParser.T__3]:
+                self.state = 37
+                self.ucIntStmt()
                 pass
             elif token in [uclangParser.EOF, uclangParser.NEWLINE]:
                 pass
@@ -265,17 +278,17 @@ class uclangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 38
+            self.state = 41
             self.match(uclangParser.IDENTIFIER)
-            self.state = 39
-            self.match(uclangParser.T__0)
-            self.state = 40
-            self.signalList()
             self.state = 42
+            self.match(uclangParser.T__0)
+            self.state = 43
+            self.signalList()
+            self.state = 45
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==uclangParser.IDENTIFIER:
-                self.state = 41
+                self.state = 44
                 self.match(uclangParser.IDENTIFIER)
 
 
@@ -324,15 +337,15 @@ class uclangParser ( Parser ):
         self.enterRule(localctx, 6, self.RULE_ucSequencerStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 44
-            self.match(uclangParser.T__1)
-            self.state = 45
-            self.match(uclangParser.IDENTIFIER)
-            self.state = 46
-            self.match(uclangParser.T__0)
             self.state = 47
-            self.number()
+            self.match(uclangParser.T__1)
             self.state = 48
+            self.match(uclangParser.IDENTIFIER)
+            self.state = 49
+            self.match(uclangParser.T__0)
+            self.state = 50
+            self.number()
+            self.state = 51
             self.match(uclangParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -379,15 +392,70 @@ class uclangParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_ucCmpStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 50
-            self.match(uclangParser.T__2)
-            self.state = 51
-            self.match(uclangParser.IDENTIFIER)
-            self.state = 52
-            self.match(uclangParser.T__0)
             self.state = 53
-            self.number()
+            self.match(uclangParser.T__2)
             self.state = 54
+            self.match(uclangParser.IDENTIFIER)
+            self.state = 55
+            self.match(uclangParser.T__0)
+            self.state = 56
+            self.number()
+            self.state = 57
+            self.match(uclangParser.IDENTIFIER)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class UcIntStmtContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def IDENTIFIER(self, i:int=None):
+            if i is None:
+                return self.getTokens(uclangParser.IDENTIFIER)
+            else:
+                return self.getToken(uclangParser.IDENTIFIER, i)
+
+        def number(self):
+            return self.getTypedRuleContext(uclangParser.NumberContext,0)
+
+
+        def getRuleIndex(self):
+            return uclangParser.RULE_ucIntStmt
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterUcIntStmt" ):
+                listener.enterUcIntStmt(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitUcIntStmt" ):
+                listener.exitUcIntStmt(self)
+
+
+
+
+    def ucIntStmt(self):
+
+        localctx = uclangParser.UcIntStmtContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 10, self.RULE_ucIntStmt)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 59
+            self.match(uclangParser.T__3)
+            self.state = 60
+            self.match(uclangParser.IDENTIFIER)
+            self.state = 61
+            self.match(uclangParser.T__0)
+            self.state = 62
+            self.number()
+            self.state = 63
             self.match(uclangParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -425,15 +493,15 @@ class uclangParser ( Parser ):
     def signalList(self):
 
         localctx = uclangParser.SignalListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_signalList)
+        self.enterRule(localctx, 12, self.RULE_signalList)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 56
-            self.match(uclangParser.T__3)
-            self.state = 57
-            self.signals()
-            self.state = 58
+            self.state = 65
             self.match(uclangParser.T__4)
+            self.state = 66
+            self.signals()
+            self.state = 67
+            self.match(uclangParser.T__5)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -473,27 +541,27 @@ class uclangParser ( Parser ):
     def signals(self):
 
         localctx = uclangParser.SignalsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 12, self.RULE_signals)
+        self.enterRule(localctx, 14, self.RULE_signals)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 61
+            self.state = 70
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==uclangParser.IDENTIFIER:
-                self.state = 60
+                self.state = 69
                 self.signal()
 
 
-            self.state = 67
+            self.state = 76
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==uclangParser.T__5:
-                self.state = 63
-                self.match(uclangParser.T__5)
-                self.state = 64
+            while _la==uclangParser.T__6:
+                self.state = 72
+                self.match(uclangParser.T__6)
+                self.state = 73
                 self.signal()
-                self.state = 69
+                self.state = 78
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -536,19 +604,19 @@ class uclangParser ( Parser ):
     def signal(self):
 
         localctx = uclangParser.SignalContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_signal)
+        self.enterRule(localctx, 16, self.RULE_signal)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 70
+            self.state = 79
             self.match(uclangParser.IDENTIFIER)
-            self.state = 73
+            self.state = 82
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==uclangParser.T__6:
-                self.state = 71
-                self.match(uclangParser.T__6)
-                self.state = 72
+            if _la==uclangParser.T__7:
+                self.state = 80
+                self.match(uclangParser.T__7)
+                self.state = 81
                 self.number()
 
 
@@ -596,24 +664,24 @@ class uclangParser ( Parser ):
     def number(self):
 
         localctx = uclangParser.NumberContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_number)
+        self.enterRule(localctx, 18, self.RULE_number)
         try:
-            self.state = 78
+            self.state = 87
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [uclangParser.T_DEC]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 75
+                self.state = 84
                 self.dec_num()
                 pass
             elif token in [uclangParser.T_HEX]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 76
+                self.state = 85
                 self.hex_num()
                 pass
             elif token in [uclangParser.T_BIN]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 77
+                self.state = 86
                 self.bin_num()
                 pass
             else:
@@ -654,10 +722,10 @@ class uclangParser ( Parser ):
     def dec_num(self):
 
         localctx = uclangParser.Dec_numContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_dec_num)
+        self.enterRule(localctx, 20, self.RULE_dec_num)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 80
+            self.state = 89
             self.match(uclangParser.T_DEC)
         except RecognitionException as re:
             localctx.exception = re
@@ -694,10 +762,10 @@ class uclangParser ( Parser ):
     def hex_num(self):
 
         localctx = uclangParser.Hex_numContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 20, self.RULE_hex_num)
+        self.enterRule(localctx, 22, self.RULE_hex_num)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 82
+            self.state = 91
             self.match(uclangParser.T_HEX)
         except RecognitionException as re:
             localctx.exception = re
@@ -734,10 +802,10 @@ class uclangParser ( Parser ):
     def bin_num(self):
 
         localctx = uclangParser.Bin_numContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 22, self.RULE_bin_num)
+        self.enterRule(localctx, 24, self.RULE_bin_num)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 84
+            self.state = 93
             self.match(uclangParser.T_BIN)
         except RecognitionException as re:
             localctx.exception = re

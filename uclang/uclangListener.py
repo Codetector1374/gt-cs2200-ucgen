@@ -53,6 +53,15 @@ class uclangListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by uclangParser#ucIntStmt.
+    def enterUcIntStmt(self, ctx:uclangParser.UcIntStmtContext):
+        pass
+
+    # Exit a parse tree produced by uclangParser#ucIntStmt.
+    def exitUcIntStmt(self, ctx:uclangParser.UcIntStmtContext):
+        pass
+
+
     # Enter a parse tree produced by uclangParser#signalList.
     def enterSignalList(self, ctx:uclangParser.SignalListContext):
         pass

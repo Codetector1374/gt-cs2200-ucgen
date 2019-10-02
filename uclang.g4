@@ -2,10 +2,11 @@ grammar uclang;
 
 ucprog: ucStmt (NEWLINE ucStmt)*;
 
-ucStmt: (ucSignalStmt|ucSequencerStmt|ucCmpStmt|);
+ucStmt: (ucSignalStmt|ucSequencerStmt|ucCmpStmt|ucIntStmt|);
 ucSignalStmt: IDENTIFIER ':' signalList IDENTIFIER?;
 ucSequencerStmt: '@' IDENTIFIER ':' number IDENTIFIER;
 ucCmpStmt: '!' IDENTIFIER ':' number IDENTIFIER;
+ucIntStmt: '$' IDENTIFIER ':' number IDENTIFIER;
 
 signalList: '[' signals ']';
 signals: signal? (',' signal)*;

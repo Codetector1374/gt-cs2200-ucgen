@@ -40,9 +40,26 @@ MainRomContent = []
 SequencerRomContent = []
 SequencerRomEntries = []
 heapq.heapify(SequencerRomEntries)
-CondRomContent =[]
+IntRomEntries = []
+IntRomContent = []
+heapq.heapify(IntRomEntries)
+CondRomContent = []
 CondRomEntries = []
 heapq.heapify(CondRomEntries)
+
+class IntEntry:
+    def __init__(self, name: str, value: int, target: str):
+        self.name = name
+        self.value = value
+        self.target = target
+        pass
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __str__(self):
+        return "INT: (%s)[%01X]: %s" % (self.name, self.value, self.target)
+
 
 class SequencerEntry:
     def __init__(self, name: str, value: int, target: str):
@@ -112,6 +129,10 @@ class uclangListener(ParseTreeListener):
 
     def __init__(self):
         self.location = 0
+
+    def exitUcIntStmt(self, ctx:uclangParser.UcIntStmtContext):
+        print('INT')
+        pass
 
     # Exit a parse tree produced by uclangParser#ucSeqencerStmt.
     def exitUcSequencerStmt(self, ctx:uclangParser.UcSequencerStmtContext):
