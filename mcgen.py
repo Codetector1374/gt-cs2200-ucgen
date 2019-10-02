@@ -26,6 +26,11 @@ AvailableSignals = {
     'alu': 2,
     'optest': 1,
     'chkcmp': 1,
+    'ldenint': 1,
+    'enint': 1,
+    'intack': 1,
+    'drdata': 1,
+    'lddar': 1,
 }
 
 MainRomSignalValues = {}
