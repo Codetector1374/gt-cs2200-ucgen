@@ -1,4 +1,3 @@
-
 from typing import List
 import argparse
 import math
@@ -7,30 +6,38 @@ from antlr4 import *
 from uclang.uclangLexer import uclangLexer
 from uclang.uclangParser import uclangParser
 
+state_width = 6
+
 AvailableSignals = {
-    'nextstate': 6,
-    'drreg': 1,
-    'drmem': 1,
-    'dralu': 1,
-    'drpc': 1,
-    'droff': 1,
-    'ldpc': 1,
-    'ldir': 1,
-    'ldmar': 1,
-    'lda': 1,
-    'ldb': 1,
-    'ldcmp': 1,
-    'wrreg': 1,
-    'wrmem': 1,
-    'regsel': 2,
-    'alu': 2,
+    'nextstate': state_width,
+    # next state mux select
     'optest': 1,
-    'chkcmp': 1,
-    'ldenint': 1,
-    'enint': 1,
-    'intack': 1,
-    'drdata': 1,
-    'lddar': 1,
+    'cmptest': 1,
+    # ALU
+    'lda': 1,
+    'amux': 1,  # 0 = DPRF P1, 1 = Bus
+    'ldb': 1,
+    'bmux': 1,  # 0 = DPRF P2, 1 = Bus
+    'immctrlsel': 1,
+    'aluop': 3,
+    'galu': 1,
+    # IR
+    'ldir': 1,
+    'gimm': 1,
+    # PC
+    'ldpc': 1,
+    'gpc': 1,
+    'pcmuxsel': 1,
+    # Memory
+    'ldmar': 1,
+    'wrsr': 1,
+    'wrmem': 1,
+    'gmem': 1,
+    # DPRF
+    'wrreg': 1,
+    'p2mux': 1, # 0 = SR2, 1 = DR
+    'gp1': 1,
+    'gp2': 1,
 }
 
 MainRomSignalValues = {}
@@ -46,6 +53,7 @@ heapq.heapify(IntRomEntries)
 CondRomContent = []
 CondRomEntries = []
 heapq.heapify(CondRomEntries)
+
 
 class IntEntry:
     def __init__(self, name: str, value: int, target: str):
@@ -88,13 +96,16 @@ class CondEntry:
     def __str__(self):
         return "COND: (%s)[%01X]: %s" % (self.name, self.value, self.target)
 
+
 class MicrocodeSignal:
     def __init__(self, name, value):
-        self.name:str = name
-        self.value:int = value
+        self.name: str = name
+        self.value: int = value
         pass
+
     def __repr__(self) -> str:
         return self.__str__()
+
     def __str__(self) -> str:
         return '{%s}->%i' % (self.name, self.value)
 
@@ -125,12 +136,13 @@ def computeSignalValueTable():
 def toText(it: TerminalNode):
     return it.getText()
 
+
 class uclangListener(ParseTreeListener):
 
     def __init__(self):
         self.location = 0
 
-    def exitUcIntStmt(self, ctx:uclangParser.UcIntStmtContext):
+    def exitUcIntStmt(self, ctx: uclangParser.UcIntStmtContext):
         ids = list(map(toText, ctx.IDENTIFIER()))
         num = ctx.number().numVal
         intEnt = IntEntry(ids[0], num, ids[1])
@@ -138,7 +150,7 @@ class uclangListener(ParseTreeListener):
         pass
 
     # Exit a parse tree produced by uclangParser#ucSeqencerStmt.
-    def exitUcSequencerStmt(self, ctx:uclangParser.UcSequencerStmtContext):
+    def exitUcSequencerStmt(self, ctx: uclangParser.UcSequencerStmtContext):
         ids = list(map(toText, ctx.IDENTIFIER()))
         num = ctx.number().numVal
         seqEnt = SequencerEntry(ids[0], num, ids[1])
@@ -146,7 +158,7 @@ class uclangListener(ParseTreeListener):
         pass
 
     # Exit a parse tree produced by uclangParser#ucCmpStmt.
-    def exitUcCmpStmt(self, ctx:uclangParser.UcCmpStmtContext):
+    def exitUcCmpStmt(self, ctx: uclangParser.UcCmpStmtContext):
         ids = list(map(toText, ctx.IDENTIFIER()))
         num = ctx.number().numVal
         condEnt = CondEntry(ids[0], num, ids[1])
@@ -154,7 +166,7 @@ class uclangListener(ParseTreeListener):
         pass
 
     # Exit a parse tree produced by uclangParser#ucSignalStmt.
-    def exitUcSignalStmt(self, ctx:uclangParser.UcSignalStmtContext):
+    def exitUcSignalStmt(self, ctx: uclangParser.UcSignalStmtContext):
         ids = list(map(toText, ctx.IDENTIFIER()))
         signal_list = ctx.signalList().signals().signalObjs
         if len(ids) == 1:
@@ -171,12 +183,12 @@ class uclangListener(ParseTreeListener):
         pass
 
     # Exit a parse tree produced by uclangParser#signalList.
-    def exitSignalList(self, ctx:uclangParser.SignalListContext):
+    def exitSignalList(self, ctx: uclangParser.SignalListContext):
         ctx.signalObjs = ctx.signals().signalObjs
         pass
 
     # Exit a parse tree produced by uclangParser#signals.
-    def exitSignals(self, ctx:uclangParser.SignalsContext):
+    def exitSignals(self, ctx: uclangParser.SignalsContext):
         signals = ctx.signal()
         signalObjs = []
         for signal in signals:
@@ -186,32 +198,32 @@ class uclangListener(ParseTreeListener):
         pass
 
     # Exit a parse tree produced by uclangParser#signal.
-    def exitSignal(self, ctx:uclangParser.SignalContext):
+    def exitSignal(self, ctx: uclangParser.SignalContext):
         signalName = ctx.IDENTIFIER().getText()
 
         value = ctx.number()
         if type(value) == uclangParser.NumberContext:
-           num_value = value.numVal
+            num_value = value.numVal
         else:
             num_value = 1
         ctx.signalObj = MicrocodeSignal(signalName, num_value)
         pass
 
     # Exit a parse tree produced by uclangParser#number.
-    def exitNumber(self, ctx:uclangParser.NumberContext):
+    def exitNumber(self, ctx: uclangParser.NumberContext):
         ctx.numVal = ctx.children[0].numVal
         pass
 
     # Exit a parse tree produced by uclangParser#dec_num.
-    def exitDec_num(self, ctx:uclangParser.Dec_numContext):
+    def exitDec_num(self, ctx: uclangParser.Dec_numContext):
         ctx.numVal = int(ctx.getText())
 
     # Exit a parse tree produced by uclangParser#hex_num.
-    def exitHex_num(self, ctx:uclangParser.Hex_numContext):
+    def exitHex_num(self, ctx: uclangParser.Hex_numContext):
         ctx.numVal = eval(ctx.getText())
 
     # Exit a parse tree produced by uclangParser#bin_num.
-    def exitBin_num(self, ctx:uclangParser.Bin_numContext):
+    def exitBin_num(self, ctx: uclangParser.Bin_numContext):
         ctx.numVal = eval(ctx.getText())
 
 
@@ -222,9 +234,11 @@ def validate_signal(signal: MicrocodeSignal) -> bool:
         return False
     signalBits = AvailableSignals[lowerSignalName]
     if signal.value >= (1 << signalBits):
-        print('\n\nERROR: Value for signal %s (%d) exceeds the max value (%d)' % (signal.name, signal.value, (1 << signalBits) - 1))
+        print('\n\nERROR: Value for signal %s (%d) exceeds the max value (%d)' % (
+            signal.name, signal.value, (1 << signalBits) - 1))
         return False
     return True
+
 
 def process_main_rom_entry(entry: MicrocodeEntry):
     signalList = entry.signals
@@ -250,6 +264,39 @@ def resolve_sequencer_cond_entry(entry) -> str:
         exit(-1)
     return '%07x' % MainRomSymbolTable[entry.target]
     pass
+
+
+def total_bits():
+    totaly_bits = 0
+    for lol_signal in AvailableSignals:
+        totaly_bits += AvailableSignals[lol_signal]
+    return math.ceil(math.log(1 << totaly_bits, 16))
+
+
+def to_intel_hex(content, bits) -> str:
+    record_type = "00"
+    output = ""
+    for address, data in enumerate(content):
+        data = int(data, 16)
+        hex_data = f"{data:02X}".zfill(bits)
+
+        checksum = bits // 2
+        lol_address = address
+        while lol_address > 0:
+            checksum = checksum + lol_address & 0xff
+            lol_address = lol_address >> 8
+
+        while data > 0:
+            checksum = checksum + data & 0xff
+            data = data >> 8
+
+        checksum = (-checksum) & 0xff
+
+        line = f":{(bits // 2):02X}{address:04X}{record_type}{hex_data}{checksum:02X}\n"
+        output += line
+    output += ":00000001FF\n"
+    return output
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Python uCGen')
@@ -336,15 +383,22 @@ if __name__ == '__main__':
     print("COND: ", CondRomContent)
     print("INT: ", IntRomContent)
     output = args.o
-    with open(('%s_main.dat' % output), 'w') as mainFile:
-        mainFile.write(' '.join(MainRomContent))
-        mainFile.flush()
-    with open(('%s_seq.dat' % output), 'w') as seqFile:
-        seqFile.write(' '.join(SequencerRomContent))
-        seqFile.flush()
-    with open(('%s_cond.dat' % output), 'w') as condFile:
-        condFile.write(' '.join(CondRomContent))
-        condFile.flush()
-    with open(('%s_int.dat' % output), 'w') as intFile:
-        intFile.write(' '.join(IntRomContent))
-        intFile.flush()
+
+    if MainRomContent:
+        with open(('%s_main.hex' % output), 'w') as mainFile:
+            mainFile.write(to_intel_hex(MainRomContent, total_bits()))
+            mainFile.flush()
+    if SequencerRomContent:
+        with open(('%s_seq.hex' % output), 'w') as seqFile:
+            state_width_bits = math.ceil(math.log(1 << state_width, 16))
+            print(f"state width bits: {state_width_bits}")
+            seqFile.write(to_intel_hex(SequencerRomContent, state_width_bits))
+            seqFile.flush()
+    if CondRomContent:
+        with open(('%s_cond.hex' % output), 'w') as condFile:
+            condFile.write(to_intel_hex(CondRomContent))
+            condFile.flush()
+    if IntRomContent:
+        with open(('%s_int.hex' % output), 'w') as intFile:
+            intFile.write(to_intel_hex(IntRomContent))
+            intFile.flush()
