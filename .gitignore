@@ -4,7 +4,6 @@
 *.iml
 
 *.uc
-*.mc
 venv/
 
 __pycache__
