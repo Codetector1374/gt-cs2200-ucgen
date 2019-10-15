@@ -13,6 +13,14 @@ AvailableSignals = {
     # next state mux select
     'optest': 1,
     'cmptest': 1,
+    # IO
+    'ldioaddr': 1,
+    'ldiodata': 1,
+    'io': 1,
+    'iowe': 1,
+    'giodata': 1,
+    'driodataext': 1,
+    'ldflags': 1,
     # ALU
     'lda': 1,
     'amux': 1,  # 0 = DPRF P1, 1 = Bus
@@ -21,6 +29,7 @@ AvailableSignals = {
     'immctrlsel': 1,
     'aluop': 3,
     'galu': 1,
+    'ldb1': 1,
     # IR
     'ldir': 1,
     'gimm': 1,
@@ -35,7 +44,8 @@ AvailableSignals = {
     'gmem': 1,
     # DPRF
     'wrreg': 1,
-    'p2mux': 1, # 0 = SR2, 1 = DR
+    'p1mux': 1,  # 0 = SR1, 1 = SP
+    'p2mux': 1,  # 0 = SR2, 1 = DR
     'gp1': 1,
     'gp2': 1,
 }
@@ -254,7 +264,7 @@ def process_main_rom_entry(entry: MicrocodeEntry):
         if not validate_signal(signal):
             exit(-1)
         entryValue += signal.value << MainRomSignalValues[signal.name.lower()]
-    MainRomContent.append("%07x" % entryValue)
+    MainRomContent.append(f"{entryValue:0X}".zfill(total_bits()))
 
 
 def resolve_sequencer_cond_entry(entry) -> str:
@@ -262,7 +272,7 @@ def resolve_sequencer_cond_entry(entry) -> str:
         print('Symbol (%s) referenced in Sequencer (%s) is not found in main rom'
               % (entry.target, entry.name))
         exit(-1)
-    return '%07x' % MainRomSymbolTable[entry.target]
+    return '%02x' % MainRomSymbolTable[entry.target]
     pass
 
 
@@ -342,7 +352,7 @@ if __name__ == '__main__':
         entry = heapq.heappop(SequencerRomEntries)
         resolvedValue = resolve_sequencer_cond_entry(entry[1])
         while len(SequencerRomContent) < entry[0]:
-            SequencerRomContent.append('%07x' % 0)
+            SequencerRomContent.append('%02x' % 0)
         if len(SequencerRomContent) != entry[0]:
             print("Something very bad happened")
             exit(-1)
@@ -356,7 +366,7 @@ if __name__ == '__main__':
         entry = heapq.heappop(CondRomEntries)
         resolvedValue = resolve_sequencer_cond_entry(entry[1])
         while len(CondRomContent) < entry[0]:
-            CondRomContent.append('%07x' % 0)
+            CondRomContent.append('%02x' % 0)
         if len(CondRomContent) != entry[0]:
             print("Something very bad happened")
             exit(-1)
@@ -385,20 +395,24 @@ if __name__ == '__main__':
     output = args.o
 
     if MainRomContent:
-        with open(('%s_main.hex' % output), 'w') as mainFile:
-            mainFile.write(to_intel_hex(MainRomContent, total_bits()))
+        print(f"Length of main rom: {len(MainRomContent)}")
+        with open(('%s_main.dat' % output), 'w') as mainFile:
+            mainFile.write(' '.join(MainRomContent))
+            # mainFile.write(to_intel_hex(MainRomContent, total_bits()))
             mainFile.flush()
     if SequencerRomContent:
-        with open(('%s_seq.hex' % output), 'w') as seqFile:
-            state_width_bits = math.ceil(math.log(1 << state_width, 16))
-            print(f"state width bits: {state_width_bits}")
-            seqFile.write(to_intel_hex(SequencerRomContent, state_width_bits))
+        with open(('%s_seq.dat' % output), 'w') as seqFile:
+            # state_width_bits = math.ceil(math.log(1 << state_width, 16))
+            # print(f"state width bits: {state_width_bits}")
+            # seqFile.write(to_intel_hex(SequencerRomContent, state_width_bits))
+            seqFile.write(' '.join(SequencerRomContent))
             seqFile.flush()
     if CondRomContent:
-        with open(('%s_cond.hex' % output), 'w') as condFile:
-            condFile.write(to_intel_hex(CondRomContent))
+        with open(('%s_cond.dat' % output), 'w') as condFile:
+            # condFile.write(to_intel_hex(CondRomContent))
+            condFile.write(' '.join(CondRomContent))
             condFile.flush()
     if IntRomContent:
-        with open(('%s_int.hex' % output), 'w') as intFile:
-            intFile.write(to_intel_hex(IntRomContent))
+        with open(('%s_int.dat' % output), 'w') as intFile:
+            # intFile.write(to_intel_hex(IntRomContent))
             intFile.flush()
