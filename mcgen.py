@@ -396,23 +396,23 @@ if __name__ == '__main__':
 
     if MainRomContent:
         print(f"Length of main rom: {len(MainRomContent)}")
-        with open(('%s_main.dat' % output), 'w') as mainFile:
+        with open(('%s_main.mem' % output), 'w') as mainFile:
             mainFile.write(' '.join(MainRomContent))
             # mainFile.write(to_intel_hex(MainRomContent, total_bits()))
             mainFile.flush()
     if SequencerRomContent:
-        with open(('%s_seq.dat' % output), 'w') as seqFile:
+        with open(('%s_seq.mem' % output), 'w') as seqFile:
             # state_width_bits = math.ceil(math.log(1 << state_width, 16))
             # print(f"state width bits: {state_width_bits}")
             # seqFile.write(to_intel_hex(SequencerRomContent, state_width_bits))
             seqFile.write(' '.join(SequencerRomContent))
             seqFile.flush()
     if CondRomContent:
-        with open(('%s_cond.dat' % output), 'w') as condFile:
+        with open(('%s_cond.mem' % output), 'w') as condFile:
             # condFile.write(to_intel_hex(CondRomContent))
             condFile.write(' '.join(CondRomContent))
             condFile.flush()
     if IntRomContent:
-        with open(('%s_int.dat' % output), 'w') as intFile:
+        with open(('%s_int.mem' % output), 'w') as intFile:
             # intFile.write(to_intel_hex(IntRomContent))
             intFile.flush()
