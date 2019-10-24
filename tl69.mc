@@ -7,20 +7,20 @@ fetch3: [optest]                  // go to next state based on Opcode
 // =======
 // | ALU |
 // =======
-@ADD: 01 add0
-@SUB: 02 sub0
-@MUL: 03 mul0
-@DIV: 04 div0
-@MOD: 05 mod0
-@XCHG: 06 xchg0
-@CMP: 07 cmp0
-@OR: 08 or0
-@XOR: 09 xor0
-@AND: 0A and0
-@NOT: 0B not0
+@ADD: 0x1 add0
+@SUB: 0x2 sub0
+@MUL: 0x3 mul0
+@DIV: 0x4 div0
+@MOD: 0x5 mod0
+@XCHG: 0x6 xchg0
+@CMP: 0x7 cmp0
+@OR: 0x8 or0
+@XOR: 0x9 xor0
+@AND: 0xA and0
+@NOT: 0xB not0
 
-// @SHR: 0C shr0
-// @SHL 0D shl0
+// @SHR: 0xC shr0
+// @SHL 0xD shl0
 
 // ================
 // | Control Flow |
