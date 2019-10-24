@@ -27,7 +27,7 @@ AvailableSignals = {
     'ldb': 1,
     'bmux': 1,  # 0 = DPRF P2, 1 = Bus
     'immctrlsel': 1,
-    'aluop': 3,
+    'aluop': 4,
     'galu': 1,
     'ldb1': 1,
     # IR

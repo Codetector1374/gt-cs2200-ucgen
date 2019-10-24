@@ -9,13 +9,14 @@ fetch3: [optest]                  // go to next state based on Opcode
 // =======
 @ADD: 01 add0
 @SUB: 02 sub0
-// @MUL: 03 mul0
+@MUL: 03 mul0
 @XCHG: 04 xchg0
 @CMP: 05 cmp0
 @OR: 06 or0
 @XOR: 07 xor0
 @AND: 08 and0
 @NOT: 09 not0
+
 // @SHR: 0A shr0
 // @SHL 0B shl0
 
@@ -53,7 +54,10 @@ fetch3: [optest]                  // go to next state based on Opcode
 // 4: -
 // 5: ~A
 // 6: A
-// 7: NONE
+// 7: A + 1
+// 8: A * B
+// 9: A / B
+// 10: A % B
 
 // =========
 // |  ALU  |
@@ -65,6 +69,9 @@ add1: [aluop=0, gALU, wrreg, ldflags] fetch0
 
 sub0: [gImm, p2mux=0, amux=0, immctrlsel=1, LdA, LdB] sub1
 sub1: [aluop=4, gALU, wrreg, ldflags] fetch0
+
+mul0: [gImm, p2mux=0, amux=0, immctrlsel=1, LdA, LdB] mul1
+mul1: [aluop=8, gALU, wrreg, ldflags] fetch0
 
 // DR exchanges with SR1, SR2 unused
 xchg0: [amux=0, LdA] xchg1
